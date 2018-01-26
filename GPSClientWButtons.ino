@@ -1,3 +1,7 @@
+/*
+    This file is the code that should be uploaded to all client modules of your LoRa network.  All of these settings are for
+    an Arduino Uno, with three buttons connected to ports 3, 4, and 5.
+*/
 #include <SoftwareSerial.h>
 #include <TinyGPS.h>
 #include <SPI.h>
@@ -17,9 +21,11 @@ uint8_t dataoutgoing[50];
 
 void setup()
 {
-    pinMode(3, INPUT);
+    //CHANGE THESE VALUES IF YOUR BUTTONS ARE PLUGGED INTO DIFFERENT PORTS THAN MINE
+    pinMode(3, INPUT); 
     pinMode(4, INPUT);
     pinMode(5, INPUT);
+    
     Serial.begin(9600);
     if (!rf95.init())
       Serial.println("init failed");
@@ -29,8 +35,6 @@ void setup()
       0x0c  // Reg 0x26: LowDataRate=On, Agc=On
     };
     rf95.setModemRegisters(&modem_config);
-    //Serial.print("Simple TinyGPS library v. "); Serial.println(TinyGPS::library_version());
-    //Serial.println();
 }
 
 void loop()
@@ -69,6 +73,8 @@ void loop()
     fnode = 1;
     unsigned long age;
     gps.f_get_position(&flat, &flon, &age);
+    //This block of Serial.print()s is really not needed, but if you want to run the client off of a computer and 
+    //check the GPS output, leave it in.  
     Serial.print("LAT=");
     Serial.print(flat, 4);
     Serial.print(" LON=");

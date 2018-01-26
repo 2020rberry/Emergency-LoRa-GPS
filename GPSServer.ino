@@ -1,10 +1,11 @@
-
+/*
+    This is the code to upload to the server side of the LoRa web.  It saves the coordinates and the severity level in 
+    the Arduino's EEPROM
+*/
 #include <SPI.h>
 #include <RH_RF95.h>
 #include <EEPROM.h>
 RH_RF95 rf95;
-int led = 13;
-int reset_lora = 9;
 String dataString = "";
 int address = 0;
 char eepromCheck[50];
@@ -49,6 +50,8 @@ void loop()
       String coordinates = getCoordinates(dataString);
       String severity = getSeverity(dataString);
       String severityMessage = "";
+      
+      //CHANGE THE TEXT STRINGS IF YOU WANT IT TO DISPLAY SOMETHING OTHER THAN WHAT THE PRESETS ARE
       if(severity.equals("1"))
       {
         severityMessage = "Low on Supplies";
@@ -61,6 +64,8 @@ void loop()
       {
         severityMessage = "Everything ok";
       }
+      
+      
       Serial.println(coordinates);
       Serial.print("Status: ");
       Serial.println(severityMessage);
